@@ -1,0 +1,69 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background-color: $color-bg-page;
+  padding-bottom: $spacing-xl;
+}
+
+.swiperWrap {
+  position: relative;
+  width: 100%;
+  height: 560rpx;
+}
+
+.swiper {
+  width: 100%;
+  height: 560rpx;
+  background-color: $color-image-placeholder;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+}
+
+.counter {
+  position: absolute;
+  right: 24rpx;
+  bottom: 24rpx;
+  padding: 8rpx 20rpx;
+  background-color: rgba(0, 0, 0, 0.45);
+  border-radius: $radius-round;
+}
+
+.counterText {
+  font-size: $font-size-sm;
+  color: $color-text-white;
+}
+
+.content {
+  padding: $spacing-lg $page-padding;
+}
+
+.title {
+  display: block;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.rating {
+  display: block;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-rating;
+}
+
+.features {
+  display: block;
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+}

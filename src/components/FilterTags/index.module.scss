@@ -1,0 +1,45 @@
+@use '@/styles/variables.scss' as *;
+
+.filterTagsScroll {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.filterTags {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  padding: $spacing-xs 0;
+  gap: $spacing-sm;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 64rpx;
+  padding: 0 $spacing-md;
+  background-color: $color-tag-inactive-bg;
+  border: 2rpx solid $color-tag-inactive-border;
+  border-radius: $radius-button;
+  transition: all $transition-base;
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.tagActive {
+  background-color: $color-tag-active-bg;
+  border-color: $color-tag-active-bg;
+}
+
+.tagText {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-tag-inactive-text;
+  white-space: nowrap;
+}
+
+.tagTextActive {
+  color: $color-tag-active-text;
+}
