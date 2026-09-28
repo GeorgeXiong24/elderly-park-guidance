@@ -1,0 +1,138 @@
+@use '@/styles/variables.scss' as *;
+
+.card {
+  background-color: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  padding: 24rpx;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+  padding: 4rpx 8rpx;
+}
+
+.title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.avgBadge {
+  display: flex;
+  align-items: baseline;
+  gap: 6rpx;
+  padding: 8rpx 20rpx;
+  border-radius: $radius-round;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+}
+
+.avgValue {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  line-height: 1;
+}
+
+.avgUnit {
+  font-size: $font-size-xs;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.chartBox {
+  position: relative;
+  width: 620rpx;
+  height: 620rpx;
+  margin: 0 auto;
+}
+
+.canvas {
+  width: 620rpx;
+  height: 620rpx;
+  display: block;
+}
+
+.chartPlaceholder {
+  width: 620rpx;
+  height: 620rpx;
+  border-radius: $radius-md;
+  background-color: $color-bg-page;
+}
+
+/* 指标行：逐行排列，左侧名称右侧分数 */
+.rows {
+  margin-top: $spacing-md;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 26rpx;
+  margin-bottom: 12rpx;
+  background: linear-gradient(180deg, #ffffff 0%, #f3f6f2 100%);
+  border: 1rpx solid $color-border;
+  border-radius: 14rpx;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.92;
+    transform: scale(0.99);
+  }
+}
+
+.rowLeft {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.rowDot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: $radius-round;
+  background-color: $color-primary;
+  flex-shrink: 0;
+}
+
+.rowName {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+}
+
+.rowValue {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+}
+
+/* 选中行：整行变绿，保留投影 */
+.rowActive {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-color: transparent;
+  box-shadow: 0 6rpx 16rpx rgba(46, 139, 87, 0.28);
+}
+
+.rowActive .rowDot {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.rowActive .rowName {
+  color: $color-text-white;
+  font-weight: $font-weight-semibold;
+}
+
+.rowActive .rowValue {
+  color: $color-text-white;
+}
+
+.hint {
+  display: block;
+  text-align: center;
+  margin-top: $spacing-sm;
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}

@@ -3,6 +3,8 @@ import { View, Text, Swiper, SwiperItem, Image } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
 import { PARKS } from '@/data/parks';
 import { PARK_PHOTOS } from '@/data/parkPhotos';
+import { getParkRadarScore } from '@/data/parkRadar';
+import RadarChart from '@/components/RadarChart';
 import styles from './index.module.scss';
 
 const ParkDetailPage: React.FC = () => {
@@ -10,6 +12,7 @@ const ParkDetailPage: React.FC = () => {
   const id = router.params.id || '';
   const park = PARKS.find((item) => item.id === id);
   const photos = PARK_PHOTOS[id] || [];
+  const radarScore = park ? getParkRadarScore(park.id) : undefined;
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -57,6 +60,12 @@ const ParkDetailPage: React.FC = () => {
           </View>
         )}
       </View>
+
+      {radarScore && (
+        <View className={styles.radarSection}>
+          <RadarChart data={radarScore} />
+        </View>
+      )}
     </View>
   );
 };
