@@ -7,12 +7,21 @@ import { getParkRadarScore } from '@/data/parkRadar';
 import RadarChart from '@/components/RadarChart';
 import styles from './index.module.scss';
 
+const getRatingLabel = (rating: number): { text: string; className: string } => {
+  const percent = (rating / 5) * 100;
+  if (percent >= 85) return { text: '优', className: styles.ratingLabelExcellent };
+  if (percent >= 70) return { text: '良', className: styles.ratingLabelGood };
+  if (percent >= 55) return { text: '一般', className: styles.ratingLabelAverage };
+  return { text: '待改善', className: styles.ratingLabelImprove };
+};
+
 const ParkDetailPage: React.FC = () => {
   const router = useRouter();
   const id = router.params.id || '';
   const park = PARKS.find((item) => item.id === id);
   const photos = PARK_PHOTOS[id] || [];
   const radarScore = park ? getParkRadarScore(park.id) : undefined;
+  const rating = park ? getRatingLabel(park.rating) : null;
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -53,9 +62,14 @@ const ParkDetailPage: React.FC = () => {
 
       <View className={styles.content}>
         <Text className={styles.title}>{park?.name || '公园详情'}</Text>
-        {park && (
+        {park && rating && (
           <View className={styles.meta}>
-            <Text className={styles.rating}>评分 {park.rating.toFixed(1)}/5.0</Text>
+            <View className={styles.ratingRow}>
+              <Text className={styles.rating}>评分 {park.rating.toFixed(1)}/5.0</Text>
+              <View className={`${styles.ratingLabel} ${rating.className}`}>
+                <Text className={styles.ratingLabelText}>{rating.text}</Text>
+              </View>
+            </View>
             <Text className={styles.features}>{park.features.join(' | ')}</Text>
           </View>
         )}

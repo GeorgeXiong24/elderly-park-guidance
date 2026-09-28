@@ -35,16 +35,11 @@ interface Point {
 const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
   const canvasId = useMemo(() => `radar-${Math.random().toString(36).slice(2, 9)}`, []);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  // 延迟挂载 Canvas 节点：等页面布局完全稳定后再插入，避免同层 Canvas 位置缓存导致错位
-  const [canvasMounted, setCanvasMounted] = useState(false);
 
-  const canvasRef = useRef<any>(null);
   const ctxRef = useRef<any>(null);
-  const sizeRef = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
-  const rafRef = useRef<number | null>(null);
+  const sizeRef = useRef<number>(0);
   const activeRef = useRef<number | null>(null);
   const initedRef = useRef(false);
-  const timersRef = useRef<number[]>([]);
 
   const count = RADAR_DIMENSIONS.length;
 
@@ -55,11 +50,11 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
 
   // 几何计算（基于 CSS 像素）
   const getRadius = (w: number) => (w / 2) * (86 / 155);
-  const vertexPoint = (index: number, radius: number, w: number, h: number): Point => {
+  const vertexPoint = (index: number, radius: number, w: number): Point => {
     const angle = ((-90 + (index * 360) / count) * Math.PI) / 180;
     return {
       x: w / 2 + radius * Math.cos(angle),
-      y: h / 2 + radius * Math.sin(angle),
+      y: w / 2 + radius * Math.sin(angle),
     };
   };
 
@@ -77,67 +72,58 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
   // 在 Canvas 上直接绘制完全实心的悬浮评分卡
   const drawTooltip = (ctx: any, index: number, w: number) => {
     const radius = getRadius(w);
-    const vertex = vertexPoint(index, (data[index] / 100) * radius, w, w);
+    const vertex = vertexPoint(index, (data[index] / 100) * radius, w);
     const below = vertex.y <= w * 0.45;
 
-    // 卡片水平居中于顶点，并限制在画布内
     const cx = Math.min(Math.max(vertex.x, CARD_W / 2 + 4), w - CARD_W / 2 - 4);
     const cardX = cx - CARD_W / 2;
     const cardY = below ? vertex.y + 12 : vertex.y - 12 - CARD_H;
 
     // 1) 实心白色底板（带投影）
-    ctx.save();
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.16)';
-    ctx.shadowBlur = 16;
-    ctx.shadowOffsetY = 5;
+    ctx.setShadow(0, 5, 16, 'rgba(0, 0, 0, 0.16)');
     roundedRect(ctx, cardX, cardY, CARD_W, CARD_H, CARD_RADIUS);
-    ctx.fillStyle = '#ffffff';
+    ctx.setFillStyle('#ffffff');
     ctx.fill();
-    ctx.restore();
+    ctx.setShadow(0, 0, 0, 'rgba(0, 0, 0, 0)');
 
-    // 边框（纯色，不影响实心度）
+    // 边框
     roundedRect(ctx, cardX, cardY, CARD_W, CARD_H, CARD_RADIUS);
-    ctx.strokeStyle = CARD_BORDER;
-    ctx.lineWidth = 1;
+    ctx.setStrokeStyle(CARD_BORDER);
+    ctx.setLineWidth(1);
     ctx.stroke();
 
     // 2) 实心箭头（指向数据顶点）
     ctx.beginPath();
     if (below) {
-      const baseY = cardY + 1;
-      const apexY = vertex.y + 2;
-      ctx.moveTo(cx - 6, baseY);
-      ctx.lineTo(cx + 6, baseY);
-      ctx.lineTo(cx, apexY);
+      ctx.moveTo(cx - 6, cardY + 1);
+      ctx.lineTo(cx + 6, cardY + 1);
+      ctx.lineTo(cx, vertex.y + 2);
     } else {
-      const baseY = cardY + CARD_H - 1;
-      const apexY = vertex.y - 2;
-      ctx.moveTo(cx - 6, baseY);
-      ctx.lineTo(cx + 6, baseY);
-      ctx.lineTo(cx, apexY);
+      ctx.moveTo(cx - 6, cardY + CARD_H - 1);
+      ctx.lineTo(cx + 6, cardY + CARD_H - 1);
+      ctx.lineTo(cx, vertex.y - 2);
     }
     ctx.closePath();
-    ctx.fillStyle = '#ffffff';
+    ctx.setFillStyle('#ffffff');
     ctx.fill();
-    ctx.strokeStyle = CARD_BORDER;
-    ctx.lineWidth = 1;
+    ctx.setStrokeStyle(CARD_BORDER);
+    ctx.setLineWidth(1);
     ctx.stroke();
 
     // 3) 维度名称
-    ctx.font = '12px sans-serif';
-    ctx.fillStyle = TEXT_SECONDARY;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+    ctx.setFontSize(12);
+    ctx.setFillStyle(TEXT_SECONDARY);
+    ctx.setTextAlign('center');
+    ctx.setTextBaseline('middle');
     ctx.fillText(RADAR_DIMENSIONS[index].label, cx, cardY + 19);
 
     // 4) 分数（大字号）+ 百分号
-    ctx.textBaseline = 'middle';
-    ctx.font = 'bold 30px sans-serif';
-    ctx.fillStyle = PRIMARY;
-    ctx.textAlign = 'right';
+    ctx.setFontSize(30);
+    ctx.setFillStyle(PRIMARY);
+    ctx.setTextAlign('right');
     ctx.fillText(String(data[index]), cx + 6, cardY + 48);
-    ctx.font = 'bold 14px sans-serif';
-    ctx.textAlign = 'left';
+    ctx.setFontSize(14);
+    ctx.setTextAlign('left');
     ctx.fillText('%', cx + 9, cardY + 47);
 
     // 5) 进度条
@@ -145,55 +131,55 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
     const barW = CARD_W - 40;
     const barY = cardY + 74;
     roundedRect(ctx, barX, barY, barW, 6, 3);
-    ctx.fillStyle = '#e8ebe6';
+    ctx.setFillStyle('#e8ebe6');
     ctx.fill();
     const fillW = Math.max((barW * data[index]) / 100, 6);
     roundedRect(ctx, barX, barY, fillW, 6, 3);
-    ctx.fillStyle = PRIMARY;
+    ctx.setFillStyle(PRIMARY);
     ctx.fill();
   };
 
-  // 使用标准 Canvas 2D API 绘制
-  const draw = (active: number | null, progress: number) => {
+  // 使用标准 Canvas 2D API 绘制（老式 createCanvasContext）
+  const draw = (active: number | null) => {
     const ctx = ctxRef.current;
-    const { w, h } = sizeRef.current;
+    const w = sizeRef.current;
     if (!ctx || !w) return;
 
     const half = w / 2;
     const radius = getRadius(w);
 
-    ctx.clearRect(0, 0, w, h);
+    ctx.clearRect(0, 0, w, w);
 
     // 基准网格（同心五边形）
     for (let level = 1; level <= RING_LEVELS; level++) {
       const r = (radius * level) / RING_LEVELS;
       ctx.beginPath();
       for (let i = 0; i < count; i++) {
-        const p = vertexPoint(i, r, w, h);
+        const p = vertexPoint(i, r, w);
         if (i === 0) ctx.moveTo(p.x, p.y);
         else ctx.lineTo(p.x, p.y);
       }
       ctx.closePath();
-      ctx.strokeStyle = level === RING_LEVELS ? GRID_OUTER_COLOR : GRID_COLOR;
-      ctx.lineWidth = 1;
+      ctx.setStrokeStyle(level === RING_LEVELS ? GRID_OUTER_COLOR : GRID_COLOR);
+      ctx.setLineWidth(1);
       ctx.stroke();
     }
 
     // 轴线
     for (let i = 0; i < count; i++) {
-      const p = vertexPoint(i, radius, w, h);
+      const p = vertexPoint(i, radius, w);
       ctx.beginPath();
       ctx.moveTo(half, half);
       ctx.lineTo(p.x, p.y);
-      ctx.strokeStyle = active === i ? ACTIVE_AXIS_COLOR : AXIS_COLOR;
-      ctx.lineWidth = active === i ? 2 : 1;
+      ctx.setStrokeStyle(active === i ? ACTIVE_AXIS_COLOR : AXIS_COLOR);
+      ctx.setLineWidth(active === i ? 2 : 1);
       ctx.stroke();
     }
 
     // 中心圆点
     ctx.beginPath();
     ctx.arc(half, half, 2.5, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(46, 139, 87, 0.35)';
+    ctx.setFillStyle('rgba(46, 139, 87, 0.35)');
     ctx.fill();
 
     // 维度标签
@@ -202,208 +188,95 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
       const ux = Math.cos(angle);
       const isSide = Math.abs(ux) > 0.6;
       const labelR = radius + (isSide ? 12 : 22);
-      const p = vertexPoint(i, labelR, w, h);
+      const p = vertexPoint(i, labelR, w);
       const isActive = active === i;
-      ctx.font = `${isActive ? 'bold ' : ''}12px sans-serif`;
-      ctx.fillStyle = isActive ? PRIMARY : LABEL_COLOR;
-      ctx.textBaseline = 'middle';
-      ctx.textAlign = isSide ? (ux > 0 ? 'left' : 'right') : 'center';
+      ctx.setFontSize(12);
+      ctx.setFillStyle(isActive ? PRIMARY : LABEL_COLOR);
+      ctx.setTextBaseline('middle');
+      ctx.setTextAlign(isSide ? (ux > 0 ? 'left' : 'right') : 'center');
       ctx.fillText(RADAR_DIMENSIONS[i].label, p.x, p.y);
     }
 
-    // 数据多边形（带入场进度）
-    const groupAlpha = 0.35 + 0.65 * progress;
-    ctx.globalAlpha = groupAlpha;
+    // 数据多边形
+    ctx.setGlobalAlpha(0.9);
     ctx.beginPath();
     for (let i = 0; i < count; i++) {
-      const r = (data[i] / 100) * radius * progress;
-      const p = vertexPoint(i, r, w, h);
+      const r = (data[i] / 100) * radius;
+      const p = vertexPoint(i, r, w);
       if (i === 0) ctx.moveTo(p.x, p.y);
       else ctx.lineTo(p.x, p.y);
     }
     ctx.closePath();
-    ctx.fillStyle = FILL_COLOR;
+    ctx.setFillStyle(FILL_COLOR);
     ctx.fill();
-    ctx.strokeStyle = PRIMARY;
-    ctx.lineWidth = 2;
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
+    ctx.setStrokeStyle(PRIMARY);
+    ctx.setLineWidth(2);
+    ctx.setLineJoin('round');
+    ctx.setLineCap('round');
     ctx.stroke();
-    ctx.globalAlpha = 1;
+    ctx.setGlobalAlpha(1);
 
     // 数据点
     for (let i = 0; i < count; i++) {
-      const r = (data[i] / 100) * radius * progress;
-      const p = vertexPoint(i, r, w, h);
+      const r = (data[i] / 100) * radius;
+      const p = vertexPoint(i, r, w);
       const isActive = active === i;
 
       if (isActive) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, 15, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(46, 139, 87, 0.16)';
+        ctx.setFillStyle('rgba(46, 139, 87, 0.16)');
         ctx.fill();
       }
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, isActive ? 7 : 4, 0, Math.PI * 2);
-      ctx.fillStyle = '#ffffff';
+      ctx.setFillStyle('#ffffff');
       ctx.fill();
-      ctx.strokeStyle = isActive ? PRIMARY_LIGHT : PRIMARY;
-      ctx.lineWidth = isActive ? 3 : 2;
+      ctx.setStrokeStyle(isActive ? PRIMARY_LIGHT : PRIMARY);
+      ctx.setLineWidth(isActive ? 3 : 2);
       ctx.stroke();
     }
 
-    // 实心悬浮评分卡（最后绘制，保证在最上层、完全不透底）
+    // 实心悬浮评分卡（最后绘制，保证在最上层）
     if (active !== null) {
       drawTooltip(ctx, active, w);
     }
+
+    // 提交绘制（老式 Canvas 为异步绘制）
+    ctx.draw();
   };
 
-  // 入场动画
-  const runEntrance = (canvas: any, duration: number) => {
-    const startTime = Date.now();
-    const tick = () => {
-      const elapsed = Date.now() - startTime;
-      const t = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - t, 3);
-      draw(activeRef.current, eased);
-      if (t < 1) {
-        rafRef.current = canvas.requestAnimationFrame(tick);
-      } else {
-        rafRef.current = null;
-      }
-    };
-    tick();
-  };
-
-  // 查询节点信息
-  const queryNode = (): Promise<any> =>
-    new Promise((resolve) => {
-      Taro.createSelectorQuery()
-        .select(`#${canvasId}`)
-        .fields({ node: true, size: true, rect: true })
-        .exec((res) => resolve(res && res[0] ? res[0] : null));
-    });
-
-  // 延迟挂载 Canvas：等待页面首帧布局完成
+  // 初始化 canvas 上下文并首绘
   useEffect(() => {
+    const windowInfo = Taro.getSystemInfoSync();
+    const windowWidth = windowInfo.windowWidth || 375;
+    const w = Math.round((620 / 750) * windowWidth);
+    sizeRef.current = w;
+    ctxRef.current = Taro.createCanvasContext(canvasId);
+    initedRef.current = true;
+
+    // 等 canvas 节点渲染完成后再绘制
     const timer = setTimeout(() => {
-      // 再等一个渲染帧，确保上方标题/元信息布局已落定
-      Taro.nextTick(() => setCanvasMounted(true));
-    }, 320) as unknown as number;
-    timersRef.current.push(timer);
+      draw(activeRef.current);
+    }, 120);
     return () => clearTimeout(timer);
-  }, []);
-
-  // Canvas 挂载后初始化：二次校验尺寸位置稳定后再创建位图
-  useEffect(() => {
-    if (!canvasMounted) return;
-    let cancelled = false;
-
-    const addTimer = (fn: () => void, delay: number) => {
-      const t = setTimeout(fn, delay) as unknown as number;
-      timersRef.current.push(t);
-    };
-
-    const initBitmap = (result: any) => {
-      if (cancelled || initedRef.current) return;
-      const canvas = result.node;
-      const ctx = canvas.getContext('2d');
-      let dpr = 2;
-      try {
-        dpr = (Taro.getWindowInfo ? Taro.getWindowInfo() : Taro.getSystemInfoSync()).pixelRatio || 2;
-      } catch (err) {
-        dpr = 2;
-      }
-      canvas.width = Math.round(result.width * dpr);
-      canvas.height = Math.round(result.height * dpr);
-      ctx.scale(dpr, dpr);
-
-      canvasRef.current = canvas;
-      ctxRef.current = ctx;
-      sizeRef.current = { w: result.width, h: result.height };
-      initedRef.current = true;
-
-      runEntrance(canvas, 600);
-
-      // 安全重绘：布局彻底稳定后再画一次，纠正潜在的同层合成异常
-      addTimer(() => {
-        if (!cancelled) draw(activeRef.current, 1);
-      }, 900);
-    };
-
-    // 连续两次查询的尺寸与位置一致，才认为布局稳定
-    const confirmAndInit = (prev: any, rounds: number) => {
-      if (cancelled) return;
-      addTimer(async () => {
-        if (cancelled) return;
-        const latest = await queryNode();
-        if (!latest || !latest.node) {
-          if (rounds < 6) confirmAndInit(prev, rounds + 1);
-          return;
-        }
-        const stable =
-          Math.abs(latest.width - prev.width) < 2 &&
-          Math.abs(latest.height - prev.height) < 2 &&
-          Math.abs(latest.top - prev.top) < 2 &&
-          Math.abs(latest.left - prev.left) < 2;
-        if (stable || rounds >= 6) {
-          initBitmap(latest);
-        } else {
-          confirmAndInit(latest, rounds + 1);
-        }
-      }, 220);
-    };
-
-    const firstTry = async (attempts: number) => {
-      if (cancelled) return;
-      const result = await queryNode();
-      if (!result || !result.node || !result.width) {
-        if (attempts < 8) addTimer(() => firstTry(attempts + 1), 120);
-        return;
-      }
-      confirmAndInit(result, 0);
-    };
-    addTimer(() => firstTry(0), 80);
-
-    return () => {
-      cancelled = true;
-      timersRef.current.forEach((t) => clearTimeout(t));
-      timersRef.current = [];
-      if (rafRef.current !== null && canvasRef.current) {
-        try {
-          canvasRef.current.cancelAnimationFrame(rafRef.current);
-        } catch (err) {
-          // ignore
-        }
-      }
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canvasId, canvasMounted]);
+  }, [canvasId]);
 
-  // 数据变化时重播入场动画
+  // 数据变化时重绘
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || !initedRef.current) return;
-    const duration = 500;
-    const startTime = Date.now();
-    const tick = () => {
-      const elapsed = Date.now() - startTime;
-      const t = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - t, 3);
-      draw(activeRef.current, eased);
-      if (t < 1) {
-        rafRef.current = canvas.requestAnimationFrame(tick);
-      }
-    };
-    tick();
+    if (initedRef.current) {
+      draw(activeRef.current);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   // 高亮变化时立即重绘
   useEffect(() => {
     activeRef.current = activeIndex;
-    if (initedRef.current) draw(activeIndex, 1);
+    if (initedRef.current) draw(activeIndex);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIndex]);
 
   return (
@@ -417,12 +290,7 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
       </View>
 
       <View className={styles.chartBox}>
-        {/* 雷达图仅用于展示，不响应触摸，避免误触与兼容问题 */}
-        {canvasMounted ? (
-          <Canvas type="2d" id={canvasId} canvasId={canvasId} className={styles.canvas} />
-        ) : (
-          <View className={styles.chartPlaceholder} />
-        )}
+        <Canvas canvasId={canvasId} id={canvasId} className={styles.canvas} />
       </View>
 
       <View className={styles.rows}>

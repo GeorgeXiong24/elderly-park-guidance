@@ -19,6 +19,25 @@ export const RADAR_DIMENSIONS: RadarDimension[] = [
 export const PARK_RADAR_SCORES: Record<string, number[]> = {
   'shenzhen-wan': [86, 71, 78, 80, 88],
   'wutong-shan': [35, 42, 62, 83, 58],
+  'lianhua-shan': [72, 80, 72, 85, 90],
+  'xianhu': [48, 55, 52, 86, 75],
+  'bijia-shan': [90, 85, 95, 76, 72],
+  'yuanboyuan': [68, 75, 56, 84, 80],
+  'shenzhen-rencai': [85, 68, 74, 82, 79],
+  'dasha-he': [78, 78, 82, 85, 72],
+  'dameisha': [70, 63, 62, 66, 82],
+  'baoan-binhai': [88, 80, 60, 74, 90],
+  'donghu': [72, 70, 70, 78, 78],
+  'honghu': [75, 62, 60, 74, 90],
+  'yangtai-shan': [45, 52, 63, 82, 66],
+  'fenghuang-shan': [48, 58, 58, 76, 54],
+  'shenzhen-zhongxin': [70, 70, 88, 78, 81],
+  'maluan-shan': [42, 44, 52, 74, 44],
+  'tanglang-shan': [46, 50, 64, 78, 70],
+  'yanhan-shan': [46, 72, 50, 22, 70],
+  'xiwan-hongshulin': [72, 58, 58, 80, 52],
+  'lizhi': [62, 69, 70, 72, 86],
+  'baoan': [58, 70, 78, 78, 78],
 };
 
 export function getParkRadarScore(parkId: string): number[] | undefined {

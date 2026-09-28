@@ -16,6 +16,7 @@ import fenghuangShanCover from '@/assets/parks/fenghuang-shan/cover.jpg';
 import shenzhenZhongxinCover from '@/assets/parks/shenzhen-zhongxin/cover.jpg';
 import maluanShanCover from '@/assets/parks/maluan-shan/cover.jpg';
 import tanglangShanCover from '@/assets/parks/tanglang-shan/cover.jpg';
+import yanhanShanCover from '@/assets/parks/yanhan-shan/cover.png';
 import xiwanHongshulinCover from '@/assets/parks/xiwan-hongshulin/cover.jpg';
 import lizhiCover from '@/assets/parks/lizhi/cover.jpg';
 import baoanCover from '@/assets/parks/baoan/cover.jpg';
@@ -158,6 +159,14 @@ export const PARKS: Park[] = [
     features: COMMON_FEATURES,
     region: '南山区',
     imageUrl: tanglangShanCover,
+  },
+  {
+    id: 'yanhan-shan',
+    name: '燕晗山公园',
+    rating: 2.6,
+    features: COMMON_FEATURES,
+    region: '南山区',
+    imageUrl: yanhanShanCover,
   },
   {
     id: 'xiwan-hongshulin',

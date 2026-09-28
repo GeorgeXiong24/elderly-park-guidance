@@ -62,6 +62,45 @@
   color: $color-rating;
 }
 
+.ratingRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.ratingLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-round;
+}
+
+.ratingLabelText {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
+  line-height: 1.5;
+}
+
+// 评级配色：优 · 浅绿 / 良 · 深绿 / 一般 · 橙 / 待改善 · 黄
+.ratingLabelExcellent {
+  background-color: #67c23a;
+}
+
+.ratingLabelGood {
+  background-color: $color-primary;
+}
+
+.ratingLabelAverage {
+  background-color: $color-warning;
+}
+
+.ratingLabelImprove {
+  background-color: #e6a23c;
+}
+
 .features {
   display: block;
   font-size: $font-size-md;

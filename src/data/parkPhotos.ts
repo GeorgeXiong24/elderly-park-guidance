@@ -220,6 +220,14 @@ import tanglangShan10 from '@/assets/parks/tanglang-shan/10.jpg';
 import tanglangShan11 from '@/assets/parks/tanglang-shan/11.png';
 import tanglangShan12 from '@/assets/parks/tanglang-shan/12.jpg';
 
+import yanhanShan2 from '@/assets/parks/yanhan-shan/2.jpg';
+import yanhanShan3 from '@/assets/parks/yanhan-shan/3.jpg';
+import yanhanShan4 from '@/assets/parks/yanhan-shan/4.jpg';
+import yanhanShan5 from '@/assets/parks/yanhan-shan/5.jpg';
+import yanhanShan6 from '@/assets/parks/yanhan-shan/6.jpg';
+import yanhanShan7 from '@/assets/parks/yanhan-shan/7.png';
+import yanhanShan8 from '@/assets/parks/yanhan-shan/8.jpg';
+
 import xiwanHongshulin1 from '@/assets/parks/xiwan-hongshulin/1.jpg';
 import xiwanHongshulin2 from '@/assets/parks/xiwan-hongshulin/2.jpg';
 import xiwanHongshulin3 from '@/assets/parks/xiwan-hongshulin/3.jpg';
@@ -277,6 +285,7 @@ export const PARK_PHOTOS: Record<string, string[]> = {
   'shenzhen-zhongxin': [shenzhenZhongxin1, shenzhenZhongxin2, shenzhenZhongxin3, shenzhenZhongxin4, shenzhenZhongxin5, shenzhenZhongxin6, shenzhenZhongxin7, shenzhenZhongxin8, shenzhenZhongxin9, shenzhenZhongxin10, shenzhenZhongxin11, shenzhenZhongxin12],
   'maluan-shan': [maluanShan1, maluanShan2, maluanShan3, maluanShan4, maluanShan5, maluanShan6, maluanShan7, maluanShan8, maluanShan9, maluanShan10, maluanShan11, maluanShan12],
   'tanglang-shan': [tanglangShan1, tanglangShan2, tanglangShan3, tanglangShan4, tanglangShan5, tanglangShan6, tanglangShan7, tanglangShan8, tanglangShan9, tanglangShan10, tanglangShan11, tanglangShan12],
+  'yanhan-shan': [yanhanShan2, yanhanShan3, yanhanShan4, yanhanShan5, yanhanShan6, yanhanShan7, yanhanShan8],
   'xiwan-hongshulin': [xiwanHongshulin1, xiwanHongshulin2, xiwanHongshulin3, xiwanHongshulin4, xiwanHongshulin5, xiwanHongshulin6, xiwanHongshulin7, xiwanHongshulin8, xiwanHongshulin9, xiwanHongshulin10, xiwanHongshulin11, xiwanHongshulin12],
   'lizhi': [lizhi1, lizhi2, lizhi3, lizhi4, lizhi5, lizhi6, lizhi7, lizhi8, lizhi9, lizhi10, lizhi11, lizhi12],
   'baoan': [baoan1, baoan2, baoan3, baoan4, baoan5, baoan6, baoan7, baoan8, baoan9, baoan10, baoan11, baoan12],
