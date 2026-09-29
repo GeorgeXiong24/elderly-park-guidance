@@ -35,11 +35,16 @@ interface Point {
 const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
   const canvasId = useMemo(() => `radar-${Math.random().toString(36).slice(2, 9)}`, []);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  // 延迟挂载 Canvas 节点，避免微信同层 Canvas 在首帧布局未稳定时缓存错误位置
+  const [canvasMounted, setCanvasMounted] = useState(false);
 
+  const canvasNodeRef = useRef<any>(null);
   const ctxRef = useRef<any>(null);
-  const sizeRef = useRef<number>(0);
+  const sizeRef = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
+  const rafRef = useRef<number | null>(null);
   const activeRef = useRef<number | null>(null);
   const initedRef = useRef(false);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const count = RADAR_DIMENSIONS.length;
 
@@ -50,11 +55,11 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
 
   // 几何计算（基于 CSS 像素）
   const getRadius = (w: number) => (w / 2) * (86 / 155);
-  const vertexPoint = (index: number, radius: number, w: number): Point => {
+  const vertexPoint = (index: number, radius: number, w: number, h: number = w): Point => {
     const angle = ((-90 + (index * 360) / count) * Math.PI) / 180;
     return {
       x: w / 2 + radius * Math.cos(angle),
-      y: w / 2 + radius * Math.sin(angle),
+      y: h / 2 + radius * Math.sin(angle),
     };
   };
 
@@ -80,16 +85,19 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
     const cardY = below ? vertex.y + 12 : vertex.y - 12 - CARD_H;
 
     // 1) 实心白色底板（带投影）
-    ctx.setShadow(0, 5, 16, 'rgba(0, 0, 0, 0.16)');
+    ctx.save();
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.16)';
+    ctx.shadowBlur = 16;
+    ctx.shadowOffsetY = 5;
     roundedRect(ctx, cardX, cardY, CARD_W, CARD_H, CARD_RADIUS);
-    ctx.setFillStyle('#ffffff');
+    ctx.fillStyle = '#ffffff';
     ctx.fill();
-    ctx.setShadow(0, 0, 0, 'rgba(0, 0, 0, 0)');
+    ctx.restore();
 
     // 边框
     roundedRect(ctx, cardX, cardY, CARD_W, CARD_H, CARD_RADIUS);
-    ctx.setStrokeStyle(CARD_BORDER);
-    ctx.setLineWidth(1);
+    ctx.strokeStyle = CARD_BORDER;
+    ctx.lineWidth = 1;
     ctx.stroke();
 
     // 2) 实心箭头（指向数据顶点）
@@ -104,26 +112,26 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
       ctx.lineTo(cx, vertex.y - 2);
     }
     ctx.closePath();
-    ctx.setFillStyle('#ffffff');
+    ctx.fillStyle = '#ffffff';
     ctx.fill();
-    ctx.setStrokeStyle(CARD_BORDER);
-    ctx.setLineWidth(1);
+    ctx.strokeStyle = CARD_BORDER;
+    ctx.lineWidth = 1;
     ctx.stroke();
 
     // 3) 维度名称
-    ctx.setFontSize(12);
-    ctx.setFillStyle(TEXT_SECONDARY);
-    ctx.setTextAlign('center');
-    ctx.setTextBaseline('middle');
+    ctx.font = '12px sans-serif';
+    ctx.fillStyle = TEXT_SECONDARY;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(RADAR_DIMENSIONS[index].label, cx, cardY + 19);
 
     // 4) 分数（大字号）+ 百分号
-    ctx.setFontSize(30);
-    ctx.setFillStyle(PRIMARY);
-    ctx.setTextAlign('right');
+    ctx.font = 'bold 30px sans-serif';
+    ctx.fillStyle = PRIMARY;
+    ctx.textAlign = 'right';
     ctx.fillText(String(data[index]), cx + 6, cardY + 48);
-    ctx.setFontSize(14);
-    ctx.setTextAlign('left');
+    ctx.font = 'bold 14px sans-serif';
+    ctx.textAlign = 'left';
     ctx.fillText('%', cx + 9, cardY + 47);
 
     // 5) 进度条
@@ -131,55 +139,56 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
     const barW = CARD_W - 40;
     const barY = cardY + 74;
     roundedRect(ctx, barX, barY, barW, 6, 3);
-    ctx.setFillStyle('#e8ebe6');
+    ctx.fillStyle = '#e8ebe6';
     ctx.fill();
     const fillW = Math.max((barW * data[index]) / 100, 6);
     roundedRect(ctx, barX, barY, fillW, 6, 3);
-    ctx.setFillStyle(PRIMARY);
+    ctx.fillStyle = PRIMARY;
     ctx.fill();
   };
 
-  // 使用标准 Canvas 2D API 绘制（老式 createCanvasContext）
-  const draw = (active: number | null) => {
+  // 使用标准 Canvas 2D API 绘制；progress 控制入场动画（0→1）
+  const draw = (active: number | null, progress: number) => {
     const ctx = ctxRef.current;
-    const w = sizeRef.current;
+    const { w, h } = sizeRef.current;
     if (!ctx || !w) return;
 
-    const half = w / 2;
+    const centerX = w / 2;
+    const centerY = h / 2;
     const radius = getRadius(w);
 
-    ctx.clearRect(0, 0, w, w);
+    ctx.clearRect(0, 0, w, h);
 
     // 基准网格（同心五边形）
     for (let level = 1; level <= RING_LEVELS; level++) {
       const r = (radius * level) / RING_LEVELS;
       ctx.beginPath();
       for (let i = 0; i < count; i++) {
-        const p = vertexPoint(i, r, w);
+        const p = vertexPoint(i, r, w, h);
         if (i === 0) ctx.moveTo(p.x, p.y);
         else ctx.lineTo(p.x, p.y);
       }
       ctx.closePath();
-      ctx.setStrokeStyle(level === RING_LEVELS ? GRID_OUTER_COLOR : GRID_COLOR);
-      ctx.setLineWidth(1);
+      ctx.strokeStyle = level === RING_LEVELS ? GRID_OUTER_COLOR : GRID_COLOR;
+      ctx.lineWidth = 1;
       ctx.stroke();
     }
 
     // 轴线
     for (let i = 0; i < count; i++) {
-      const p = vertexPoint(i, radius, w);
+      const p = vertexPoint(i, radius, w, h);
       ctx.beginPath();
-      ctx.moveTo(half, half);
+      ctx.moveTo(centerX, centerY);
       ctx.lineTo(p.x, p.y);
-      ctx.setStrokeStyle(active === i ? ACTIVE_AXIS_COLOR : AXIS_COLOR);
-      ctx.setLineWidth(active === i ? 2 : 1);
+      ctx.strokeStyle = active === i ? ACTIVE_AXIS_COLOR : AXIS_COLOR;
+      ctx.lineWidth = active === i ? 2 : 1;
       ctx.stroke();
     }
 
     // 中心圆点
     ctx.beginPath();
-    ctx.arc(half, half, 2.5, 0, Math.PI * 2);
-    ctx.setFillStyle('rgba(46, 139, 87, 0.35)');
+    ctx.arc(centerX, centerY, 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(46, 139, 87, 0.35)';
     ctx.fill();
 
     // 维度标签
@@ -188,53 +197,54 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
       const ux = Math.cos(angle);
       const isSide = Math.abs(ux) > 0.6;
       const labelR = radius + (isSide ? 12 : 22);
-      const p = vertexPoint(i, labelR, w);
+      const p = vertexPoint(i, labelR, w, h);
       const isActive = active === i;
-      ctx.setFontSize(12);
-      ctx.setFillStyle(isActive ? PRIMARY : LABEL_COLOR);
-      ctx.setTextBaseline('middle');
-      ctx.setTextAlign(isSide ? (ux > 0 ? 'left' : 'right') : 'center');
+      ctx.font = `${isActive ? 'bold ' : ''}12px sans-serif`;
+      ctx.fillStyle = isActive ? PRIMARY : LABEL_COLOR;
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = isSide ? (ux > 0 ? 'left' : 'right') : 'center';
       ctx.fillText(RADAR_DIMENSIONS[i].label, p.x, p.y);
     }
 
-    // 数据多边形
-    ctx.setGlobalAlpha(0.9);
+    // 数据多边形（带入场透明度/缩放动画）
+    const groupAlpha = 0.35 + 0.65 * progress;
+    ctx.globalAlpha = groupAlpha;
     ctx.beginPath();
     for (let i = 0; i < count; i++) {
-      const r = (data[i] / 100) * radius;
-      const p = vertexPoint(i, r, w);
+      const r = ((data[i] / 100) * radius * progress);
+      const p = vertexPoint(i, r, w, h);
       if (i === 0) ctx.moveTo(p.x, p.y);
       else ctx.lineTo(p.x, p.y);
     }
     ctx.closePath();
-    ctx.setFillStyle(FILL_COLOR);
+    ctx.fillStyle = FILL_COLOR;
     ctx.fill();
-    ctx.setStrokeStyle(PRIMARY);
-    ctx.setLineWidth(2);
-    ctx.setLineJoin('round');
-    ctx.setLineCap('round');
+    ctx.strokeStyle = PRIMARY;
+    ctx.lineWidth = 2;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
     ctx.stroke();
-    ctx.setGlobalAlpha(1);
+    ctx.globalAlpha = 1;
 
     // 数据点
     for (let i = 0; i < count; i++) {
-      const r = (data[i] / 100) * radius;
-      const p = vertexPoint(i, r, w);
+      const r = ((data[i] / 100) * radius * progress);
+      const p = vertexPoint(i, r, w, h);
       const isActive = active === i;
 
       if (isActive) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, 15, 0, Math.PI * 2);
-        ctx.setFillStyle('rgba(46, 139, 87, 0.16)');
+        ctx.fillStyle = 'rgba(46, 139, 87, 0.16)';
         ctx.fill();
       }
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, isActive ? 7 : 4, 0, Math.PI * 2);
-      ctx.setFillStyle('#ffffff');
+      ctx.fillStyle = '#ffffff';
       ctx.fill();
-      ctx.setStrokeStyle(isActive ? PRIMARY_LIGHT : PRIMARY);
-      ctx.setLineWidth(isActive ? 3 : 2);
+      ctx.strokeStyle = isActive ? PRIMARY_LIGHT : PRIMARY;
+      ctx.lineWidth = isActive ? 3 : 2;
       ctx.stroke();
     }
 
@@ -242,32 +252,151 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
     if (active !== null) {
       drawTooltip(ctx, active, w);
     }
-
-    // 提交绘制（老式 Canvas 为异步绘制）
-    ctx.draw();
   };
 
-  // 初始化 canvas 上下文并首绘
-  useEffect(() => {
-    const windowInfo = Taro.getSystemInfoSync();
-    const windowWidth = windowInfo.windowWidth || 375;
-    const w = Math.round((620 / 750) * windowWidth);
-    sizeRef.current = w;
-    ctxRef.current = Taro.createCanvasContext(canvasId);
-    initedRef.current = true;
+  // 入场动画
+  const animate = (canvasNode: any, duration: number) => {
+    const startTime = Date.now();
+    const frame = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      draw(activeRef.current, eased);
+      if (progress < 1) {
+        rafRef.current = canvasNode.requestAnimationFrame(frame);
+      } else {
+        rafRef.current = null;
+      }
+    };
+    frame();
+  };
 
-    // 等 canvas 节点渲染完成后再绘制
+  // 查询 Canvas 节点信息
+  const queryNode = (): Promise<any> =>
+    new Promise((resolve) => {
+      Taro.createSelectorQuery()
+        .select(`#${canvasId}`)
+        .fields({ node: true, size: true, rect: true })
+        .exec((res) => {
+          resolve(res && res[0] ? res[0] : null);
+        });
+    });
+
+  // 延迟挂载 Canvas 节点
+  useEffect(() => {
     const timer = setTimeout(() => {
-      draw(activeRef.current);
-    }, 120);
+      Taro.nextTick(() => setCanvasMounted(true));
+    }, 320);
+    timersRef.current.push(timer);
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canvasId]);
+  }, []);
 
-  // 数据变化时重绘
+  // Canvas 挂载后：等待布局稳定 → 初始化 2D 上下文 → 入场绘制
   useEffect(() => {
-    if (initedRef.current) {
-      draw(activeRef.current);
+    if (!canvasMounted) return;
+
+    let cancelled = false;
+    const addTimer = (fn: () => void, ms: number) => {
+      const t = setTimeout(fn, ms);
+      timersRef.current.push(t);
+    };
+
+    const setup = (node: any) => {
+      if (cancelled || initedRef.current) return;
+      const canvasNode = node.node;
+      const ctx = canvasNode.getContext('2d');
+
+      let dpr = 2;
+      try {
+        dpr = (Taro.getWindowInfo ? Taro.getWindowInfo() : Taro.getSystemInfoSync()).pixelRatio || 2;
+      } catch (e) {
+        dpr = 2;
+      }
+
+      canvasNode.width = Math.round(node.width * dpr);
+      canvasNode.height = Math.round(node.height * dpr);
+      ctx.scale(dpr, dpr);
+
+      canvasNodeRef.current = canvasNode;
+      ctxRef.current = ctx;
+      sizeRef.current = { w: node.width, h: node.height };
+      initedRef.current = true;
+
+      animate(canvasNode, 600);
+      // 布局稳定后的安全重绘，兜底任何延迟重排
+      addTimer(() => {
+        if (!cancelled) draw(activeRef.current, 1);
+      }, 900);
+    };
+
+    // 二次校验：连续两次查询的尺寸/位置一致（容差 2px）才初始化
+    const verify = (prev: any, round: number) => {
+      if (cancelled) return;
+      addTimer(async () => {
+        const node = await queryNode();
+        if (node && node.node) {
+          const stable =
+            !prev ||
+            (Math.abs(node.width - prev.width) < 2 &&
+              Math.abs(node.height - prev.height) < 2 &&
+              Math.abs(node.top - prev.top) < 2 &&
+              Math.abs(node.left - prev.left) < 2);
+          if (stable || round >= 6) {
+            setup(node);
+          } else {
+            verify(node, round + 1);
+          }
+        } else if (round < 6) {
+          verify(prev, round + 1);
+        }
+      }, 220);
+    };
+
+    // 首次查询：等待节点出现且有尺寸
+    const firstQuery = (round: number) => {
+      if (cancelled) return;
+      addTimer(async () => {
+        const node = await queryNode();
+        if (node && node.node && node.width) {
+          verify(node, 0);
+        } else if (round < 8) {
+          firstQuery(round + 1);
+        }
+      }, 120);
+    };
+
+    addTimer(() => firstQuery(0), 80);
+
+    return () => {
+      cancelled = true;
+      timersRef.current.forEach((t) => clearTimeout(t));
+      timersRef.current = [];
+      if (rafRef.current !== null && canvasNodeRef.current) {
+        try {
+          canvasNodeRef.current.cancelAnimationFrame(rafRef.current);
+        } catch (e) {
+          // ignore
+        }
+      }
+    };
+  }, [canvasId, canvasMounted]);
+
+  // 数据变化时重新播放一次动画
+  useEffect(() => {
+    const canvasNode = canvasNodeRef.current;
+    if (canvasNode && initedRef.current) {
+      const duration = 500;
+      const startTime = Date.now();
+      const frame = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        draw(activeRef.current, eased);
+        if (progress < 1) {
+          rafRef.current = canvasNode.requestAnimationFrame(frame);
+        }
+      };
+      frame();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
@@ -275,8 +404,7 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
   // 高亮变化时立即重绘
   useEffect(() => {
     activeRef.current = activeIndex;
-    if (initedRef.current) draw(activeIndex);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (initedRef.current) draw(activeIndex, 1);
   }, [activeIndex]);
 
   return (
@@ -290,7 +418,11 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
       </View>
 
       <View className={styles.chartBox}>
-        <Canvas canvasId={canvasId} id={canvasId} className={styles.canvas} />
+        {canvasMounted ? (
+          <Canvas type="2d" id={canvasId} canvasId={canvasId} className={styles.canvas} />
+        ) : (
+          <View className={styles.chartPlaceholder} />
+        )}
       </View>
 
       <View className={styles.rows}>
