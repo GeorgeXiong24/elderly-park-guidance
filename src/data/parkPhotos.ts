@@ -267,6 +267,15 @@ import baoan10 from '@/assets/parks/baoan/10.jpg';
 import baoan11 from '@/assets/parks/baoan/11.jpg';
 import baoan12 from '@/assets/parks/baoan/12.jpg';
 
+import julongShan1 from '@/assets/parks/julong-shan/1.png';
+import julongShan2 from '@/assets/parks/julong-shan/2.jpg';
+import julongShan3 from '@/assets/parks/julong-shan/3.jpg';
+import julongShan4 from '@/assets/parks/julong-shan/4.jpg';
+import julongShan5 from '@/assets/parks/julong-shan/5.jpg';
+import julongShan6 from '@/assets/parks/julong-shan/6.jpg';
+import julongShan7 from '@/assets/parks/julong-shan/7.jpg';
+import julongShan8 from '@/assets/parks/julong-shan/8.jpg';
+
 export const PARK_PHOTOS: Record<string, string[]> = {
   'shenzhen-wan': [shenzhenWan1, shenzhenWan2, shenzhenWan3, shenzhenWan4, shenzhenWan5, shenzhenWan6, shenzhenWan7, shenzhenWan8, shenzhenWan9, shenzhenWan10, shenzhenWan11, shenzhenWan12],
   'wutong-shan': [wutongShan1, wutongShan2, wutongShan3, wutongShan4, wutongShan5, wutongShan6, wutongShan7, wutongShan8, wutongShan9, wutongShan10, wutongShan11, wutongShan12],
@@ -289,4 +298,5 @@ export const PARK_PHOTOS: Record<string, string[]> = {
   'xiwan-hongshulin': [xiwanHongshulin1, xiwanHongshulin2, xiwanHongshulin3, xiwanHongshulin4, xiwanHongshulin5, xiwanHongshulin6, xiwanHongshulin7, xiwanHongshulin8, xiwanHongshulin9, xiwanHongshulin10, xiwanHongshulin11, xiwanHongshulin12],
   'lizhi': [lizhi1, lizhi2, lizhi3, lizhi4, lizhi5, lizhi6, lizhi7, lizhi8, lizhi9, lizhi10, lizhi11, lizhi12],
   'baoan': [baoan1, baoan2, baoan3, baoan4, baoan5, baoan6, baoan7, baoan8, baoan9, baoan10, baoan11, baoan12],
+  'julong-shan': [julongShan1, julongShan2, julongShan3, julongShan4, julongShan5, julongShan6, julongShan7, julongShan8],
 };

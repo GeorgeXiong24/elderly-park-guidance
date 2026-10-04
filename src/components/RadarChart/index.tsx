@@ -6,6 +6,8 @@ import styles from './index.module.scss';
 
 interface RadarChartProps {
   data: number[];
+  /** 加权总分（0-100），用于顶部「综合分」徽章 */
+  weightedScore?: number;
 }
 
 // 视觉常量
@@ -32,7 +34,7 @@ interface Point {
   y: number;
 }
 
-const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
+const RadarChart: React.FC<RadarChartProps> = ({ data, weightedScore }) => {
   const canvasId = useMemo(() => `radar-${Math.random().toString(36).slice(2, 9)}`, []);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   // 延迟挂载 Canvas 节点，避免微信同层 Canvas 在首帧布局未稳定时缓存错误位置
@@ -48,9 +50,13 @@ const RadarChart: React.FC<RadarChartProps> = ({ data }) => {
 
   const count = RADAR_DIMENSIONS.length;
 
+  // 综合分：优先使用传入的加权总分，否则回退到五维简单平均
   const avg = useMemo(
-    () => Math.round(data.reduce((sum, value) => sum + value, 0) / data.length),
-    [data]
+    () =>
+      typeof weightedScore === 'number'
+        ? weightedScore
+        : Math.round(data.reduce((sum, value) => sum + value, 0) / data.length),
+    [data, weightedScore]
   );
 
   // 几何计算（基于 CSS 像素）

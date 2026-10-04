@@ -38,8 +38,40 @@ export const PARK_RADAR_SCORES: Record<string, number[]> = {
   'xiwan-hongshulin': [72, 58, 58, 80, 52],
   'lizhi': [62, 69, 70, 72, 86],
   'baoan': [58, 70, 78, 78, 78],
+  'julong-shan': [86, 82, 68, 66, 92],
+};
+
+// 各公园加权总分（0-100 分），键为公园 id（与 parks.ts 中的 id 对应）
+// 数据来源：evidence_list/radar_chart_data/park_radar_scores.xlsx 的「加权总分」列
+export const PARK_WEIGHTED_SCORES: Record<string, number> = {
+  'shenzhen-wan': 81,
+  'wutong-shan': 56,
+  'lianhua-shan': 80,
+  'xianhu': 63,
+  'bijia-shan': 84,
+  'yuanboyuan': 73,
+  'shenzhen-rencai': 78,
+  'dasha-he': 79,
+  'dameisha': 69,
+  'baoan-binhai': 78,
+  'donghu': 74,
+  'honghu': 72,
+  'yangtai-shan': 62,
+  'fenghuang-shan': 59,
+  'shenzhen-zhongxin': 77,
+  'maluan-shan': 51,
+  'tanglang-shan': 62,
+  'xiwan-hongshulin': 64,
+  'lizhi': 72,
+  'baoan': 72,
+  'yanhan-shan': 55,
+  'julong-shan': 81,
 };
 
 export function getParkRadarScore(parkId: string): number[] | undefined {
   return PARK_RADAR_SCORES[parkId];
+}
+
+export function getParkWeightedScore(parkId: string): number | undefined {
+  return PARK_WEIGHTED_SCORES[parkId];
 }
