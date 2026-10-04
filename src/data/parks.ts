@@ -16,9 +16,11 @@ import fenghuangShanCover from '@/assets/parks/fenghuang-shan/cover.jpg';
 import shenzhenZhongxinCover from '@/assets/parks/shenzhen-zhongxin/cover.jpg';
 import maluanShanCover from '@/assets/parks/maluan-shan/cover.jpg';
 import tanglangShanCover from '@/assets/parks/tanglang-shan/cover.jpg';
+import yanhanShanCover from '@/assets/parks/yanhan-shan/cover.png';
 import xiwanHongshulinCover from '@/assets/parks/xiwan-hongshulin/cover.jpg';
 import lizhiCover from '@/assets/parks/lizhi/cover.jpg';
 import baoanCover from '@/assets/parks/baoan/cover.jpg';
+import julongShanCover from '@/assets/parks/julong-shan/cover.png';
 
 const COMMON_FEATURES = ['座椅多', '无障碍友好', '适合散步'];
 
@@ -26,7 +28,7 @@ export const PARKS: Park[] = [
   {
     id: 'shenzhen-wan',
     name: '深圳湾公园',
-    rating: 4.8,
+    rating: 4.1,
     features: COMMON_FEATURES,
     region: '福田区/南山区',
     imageUrl: shenzhenWanCover,
@@ -34,7 +36,7 @@ export const PARKS: Park[] = [
   {
     id: 'wutong-shan',
     name: '梧桐山风景名胜区',
-    rating: 4.8,
+    rating: 2.8,
     features: COMMON_FEATURES,
     region: '罗湖区/盐田区/龙岗区',
     imageUrl: wutongShanCover,
@@ -42,7 +44,7 @@ export const PARKS: Park[] = [
   {
     id: 'lianhua-shan',
     name: '莲花山公园',
-    rating: 4.8,
+    rating: 4.0,
     features: COMMON_FEATURES,
     region: '福田区',
     imageUrl: lianhuaShanCover,
@@ -50,7 +52,7 @@ export const PARKS: Park[] = [
   {
     id: 'xianhu',
     name: '仙湖植物园',
-    rating: 4.8,
+    rating: 3.2,
     features: COMMON_FEATURES,
     region: '罗湖区',
     imageUrl: xianhuCover,
@@ -58,7 +60,7 @@ export const PARKS: Park[] = [
   {
     id: 'bijia-shan',
     name: '笔架山体育公园',
-    rating: 4.8,
+    rating: 4.2,
     features: COMMON_FEATURES,
     region: '福田区',
     imageUrl: bijiaShanCover,
@@ -66,7 +68,7 @@ export const PARKS: Park[] = [
   {
     id: 'yuanboyuan',
     name: '园博园',
-    rating: 4.8,
+    rating: 3.7,
     features: COMMON_FEATURES,
     region: '福田区',
     imageUrl: yuanboyuanCover,
@@ -74,7 +76,7 @@ export const PARKS: Park[] = [
   {
     id: 'shenzhen-rencai',
     name: '深圳人才公园',
-    rating: 4.8,
+    rating: 3.9,
     features: COMMON_FEATURES,
     region: '南山区',
     imageUrl: shenzhenRencaiCover,
@@ -82,7 +84,7 @@ export const PARKS: Park[] = [
   {
     id: 'dasha-he',
     name: '大沙河公园',
-    rating: 4.8,
+    rating: 4.0,
     features: COMMON_FEATURES,
     region: '南山区',
     imageUrl: dashaHeCover,
@@ -90,7 +92,7 @@ export const PARKS: Park[] = [
   {
     id: 'dameisha',
     name: '大梅沙海滨公园',
-    rating: 4.8,
+    rating: 3.5,
     features: COMMON_FEATURES,
     region: '盐田区',
     imageUrl: dameishaCover,
@@ -98,7 +100,7 @@ export const PARKS: Park[] = [
   {
     id: 'baoan-binhai',
     name: '宝安滨海文化公园',
-    rating: 4.8,
+    rating: 3.9,
     features: COMMON_FEATURES,
     region: '宝安区',
     imageUrl: baoanBinhaiCover,
@@ -106,7 +108,7 @@ export const PARKS: Park[] = [
   {
     id: 'donghu',
     name: '东湖公园',
-    rating: 4.8,
+    rating: 3.7,
     features: COMMON_FEATURES,
     region: '罗湖区',
     imageUrl: donghuCover,
@@ -114,7 +116,7 @@ export const PARKS: Park[] = [
   {
     id: 'honghu',
     name: '洪湖公园',
-    rating: 4.8,
+    rating: 3.6,
     features: COMMON_FEATURES,
     region: '罗湖区',
     imageUrl: honghuCover,
@@ -122,7 +124,7 @@ export const PARKS: Park[] = [
   {
     id: 'yangtai-shan',
     name: '阳台山森林公园',
-    rating: 4.8,
+    rating: 3.1,
     features: COMMON_FEATURES,
     region: '宝安区/龙华区/南山区',
     imageUrl: yangtaiShanCover,
@@ -130,7 +132,7 @@ export const PARKS: Park[] = [
   {
     id: 'fenghuang-shan',
     name: '凤凰山森林公园',
-    rating: 4.8,
+    rating: 3.0,
     features: COMMON_FEATURES,
     region: '宝安区',
     imageUrl: fenghuangShanCover,
@@ -138,7 +140,7 @@ export const PARKS: Park[] = [
   {
     id: 'shenzhen-zhongxin',
     name: '深圳中心公园',
-    rating: 4.8,
+    rating: 3.9,
     features: COMMON_FEATURES,
     region: '福田区',
     imageUrl: shenzhenZhongxinCover,
@@ -146,7 +148,7 @@ export const PARKS: Park[] = [
   {
     id: 'maluan-shan',
     name: '马峦山郊野公园',
-    rating: 4.8,
+    rating: 2.6,
     features: COMMON_FEATURES,
     region: '坪山区',
     imageUrl: maluanShanCover,
@@ -154,15 +156,23 @@ export const PARKS: Park[] = [
   {
     id: 'tanglang-shan',
     name: '塘朗山郊野公园',
-    rating: 4.8,
+    rating: 3.1,
     features: COMMON_FEATURES,
     region: '南山区',
     imageUrl: tanglangShanCover,
   },
   {
+    id: 'yanhan-shan',
+    name: '燕晗山公园',
+    rating: 2.8,
+    features: COMMON_FEATURES,
+    region: '南山区',
+    imageUrl: yanhanShanCover,
+  },
+  {
     id: 'xiwan-hongshulin',
     name: '西湾红树林公园',
-    rating: 4.8,
+    rating: 3.2,
     features: COMMON_FEATURES,
     region: '宝安区',
     imageUrl: xiwanHongshulinCover,
@@ -170,7 +180,7 @@ export const PARKS: Park[] = [
   {
     id: 'lizhi',
     name: '荔枝公园',
-    rating: 4.8,
+    rating: 3.6,
     features: COMMON_FEATURES,
     region: '福田区',
     imageUrl: lizhiCover,
@@ -178,10 +188,18 @@ export const PARKS: Park[] = [
   {
     id: 'baoan',
     name: '宝安公园',
-    rating: 4.8,
+    rating: 3.6,
     features: COMMON_FEATURES,
     region: '宝安区',
     imageUrl: baoanCover,
+  },
+  {
+    id: 'julong-shan',
+    name: '聚龙山公园',
+    rating: 4.1,
+    features: COMMON_FEATURES,
+    region: '坪山区',
+    imageUrl: julongShanCover,
   },
 ];
 
