@@ -63,6 +63,24 @@
   }
 }
 
+.clearButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44rpx;
+  height: 44rpx;
+  margin-left: $spacing-sm;
+  flex-shrink: 0;
+  background-color: $color-divider;
+  border-radius: $radius-round;
+}
+
+.clearIcon {
+  font-size: 32rpx;
+  color: $color-text-tertiary;
+  line-height: 1;
+}
+
 .placeholder {
   color: $color-search-placeholder;
   font-size: $font-size-md;

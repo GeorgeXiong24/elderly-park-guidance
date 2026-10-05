@@ -30,12 +30,7 @@ const ParksPage: React.FC = () => {
     const activeFeatureTags = selectedTagIds.filter((id) => id !== 'all');
     if (activeFeatureTags.length > 0) {
       result = result.filter((park) =>
-        activeFeatureTags.some((tagId) => {
-          if (tagId === 'accessible') return park.features.includes('无障碍友好');
-          if (tagId === 'seats') return park.features.includes('座椅多');
-          if (tagId === 'quiet') return park.features.includes('适合散步');
-          return false;
-        })
+        activeFeatureTags.every((tagId) => park.features.includes(tagId))
       );
     }
 

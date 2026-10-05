@@ -26,6 +26,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
     onSearch?.(value);
   };
 
+  const handleClear = () => {
+    setKeyword('');
+    onSearch?.('');
+  };
+
   return (
     <View className={styles.searchBar}>
       <View className={styles.inputWrap}>
@@ -42,6 +47,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
           onInput={(event) => setKeyword(event.detail.value)}
           onConfirm={handleConfirm}
         />
+        {keyword && (
+          <View className={styles.clearButton} onClick={handleClear}>
+            <Text className={styles.clearIcon}>×</Text>
+          </View>
+        )}
       </View>
       <View
         className={classnames(styles.searchButton)}

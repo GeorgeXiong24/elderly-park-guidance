@@ -1,5 +1,9 @@
 @use '@/styles/variables.scss' as *;
 
+.filterTagsWrap {
+  width: 100%;
+}
+
 .filterTagsScroll {
   width: 100%;
   white-space: nowrap;
@@ -8,6 +12,13 @@
 .filterTags {
   display: inline-flex;
   flex-wrap: nowrap;
+  padding: $spacing-xs 0;
+  gap: $spacing-sm;
+}
+
+.filterTagsExpanded {
+  display: flex;
+  flex-wrap: wrap;
   padding: $spacing-xs 0;
   gap: $spacing-sm;
 }
@@ -42,4 +53,18 @@
 
 .tagTextActive {
   color: $color-tag-active-text;
+}
+
+.expandToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44rpx;
+  margin-top: $spacing-xs;
+}
+
+.expandArrow {
+  font-size: 20rpx;
+  color: $color-text-tertiary;
+  line-height: 1;
 }
