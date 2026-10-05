@@ -17,7 +17,7 @@ The mini program is centered on age-friendly design: larger fonts, high-contrast
 - Supports real-time search by park name or district keyword.
 
 ### Tag Filtering
-- Provides filter tags such as "All Parks / Accessible Pathways / Ample Seating / Shaded Pavilions / Senior Fitness Equipment / Quiet Walking".
+- Provides multiple filter tags to help users find parks that meet their specific needs.
 - One-tap switching to quickly locate parks matching specific needs.
 
 ### Park Details
@@ -33,9 +33,6 @@ The mini program is centered on age-friendly design: larger fonts, high-contrast
 ### Age-Friendly Five-Dimension Radar Chart
 - Visualizes the park's age-friendliness across 5 dimensions at a glance.
 - Tap a dimension below to highlight its score on the chart and view the exact value.
-
-### About Us
-- Introduces the project's positioning and goals, helping new users quickly understand its value.
 
 ## Rating System
 
@@ -60,43 +57,8 @@ The radar chart evaluates a park's age-friendliness across the following 5 dimen
 | Environmental Comfort | Comfort from shade, greenery, and resting seats |
 | Transport Convenience | Accessibility by metro and bus |
 
-## Included Parks
-
-| Park Name | District | Rating /5 |
-| --- | --- | --- |
-| Shenzhen Bay Park | Futian / Nanshan | 4.1 |
-| Wutong Mountain Scenic Area | Luohu / Yantian / Longgang | 2.8 |
-| Lianhua Mountain Park | Futian | 4.0 |
-| Fairy Lake Botanical Garden | Luohu | 3.2 |
-| Bijia Mountain Sports Park | Futian | 4.2 |
-| Garden Expo Park | Futian | 3.7 |
-| Shenzhen Talent Park | Nanshan | 3.9 |
-| Dasha River Park | Nanshan | 4.0 |
-| Dameisha Seaside Park | Yantian | 3.5 |
-| Bao'an Binhai Cultural Park | Bao'an | 3.9 |
-| Donghu Park | Luohu | 3.7 |
-| Honghu Park | Luohu | 3.6 |
-| Yangtai Mountain Forest Park | Bao'an / Longhua / Nanshan | 3.1 |
-| Fenghuang Mountain Forest Park | Bao'an | 3.0 |
-| Shenzhen Central Park | Futian | 3.9 |
-| Maluan Mountain Country Park | Pingshan | 2.6 |
-| Tanglang Mountain Country Park | Nanshan | 3.1 |
-| Yanhan Mountain Park | Nanshan | 2.8 |
-| Xiwan Mangrove Park | Bao'an | 3.2 |
-| Lizhi Park | Futian | 3.6 |
-| Bao'an Park | Bao'an | 3.6 |
-| Julong Mountain Park | Pingshan | 4.1 |
-
 ## Background
 
 As Shenzhen's population ages, the elderly's demand for outdoor activity venues continues to grow. However, park information is often scattered across multiple channels and rarely organized around the actual needs of the elderly. When choosing activity venues, seniors often face inconvenience due to the lack of age-friendly information.
 
 This project helps seniors conveniently and clearly find parks that suit them by gathering age-friendly information on major parks in Shenzhen.
-
-## Roadmap
-
-- Precise geolocation and map display
-- Public transport guidance and one-tap navigation
-- Scientific exercise duration and intensity suggestions
-- Park peak crowd time alerts
-- More age-friendly information dimensions
