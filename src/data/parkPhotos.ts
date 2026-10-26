@@ -276,6 +276,42 @@ import julongShan6 from '@/assets/parks/julong-shan/6.jpg';
 import julongShan7 from '@/assets/parks/julong-shan/7.jpg';
 import julongShan8 from '@/assets/parks/julong-shan/8.jpg';
 
+import pingshanHe1 from '@/assets/parks/pingshan-he/1.jpg';
+import pingshanHe2 from '@/assets/parks/pingshan-he/2.jpg';
+import pingshanHe3 from '@/assets/parks/pingshan-he/3.jpg';
+import pingshanHe4 from '@/assets/parks/pingshan-he/4.jpg';
+import pingshanHe5 from '@/assets/parks/pingshan-he/5.jpg';
+import pingshanHe6 from '@/assets/parks/pingshan-he/6.jpg';
+import pingshanHe7 from '@/assets/parks/pingshan-he/7.jpg';
+import pingshanHe8 from '@/assets/parks/pingshan-he/8.jpg';
+
+import pingshanZhongxin1 from '@/assets/parks/pingshan-zhongxin/1.jpg';
+import pingshanZhongxin2 from '@/assets/parks/pingshan-zhongxin/2.jpg';
+import pingshanZhongxin3 from '@/assets/parks/pingshan-zhongxin/3.jpg';
+import pingshanZhongxin4 from '@/assets/parks/pingshan-zhongxin/4.jpg';
+import pingshanZhongxin5 from '@/assets/parks/pingshan-zhongxin/5.jpg';
+import pingshanZhongxin6 from '@/assets/parks/pingshan-zhongxin/6.jpg';
+import pingshanZhongxin7 from '@/assets/parks/pingshan-zhongxin/7.jpg';
+import pingshanZhongxin8 from '@/assets/parks/pingshan-zhongxin/8.jpg';
+
+import yanziLing1 from '@/assets/parks/yanzi-ling/1.jpg';
+import yanziLing2 from '@/assets/parks/yanzi-ling/2.jpg';
+import yanziLing3 from '@/assets/parks/yanzi-ling/3.jpg';
+import yanziLing4 from '@/assets/parks/yanzi-ling/4.jpg';
+import yanziLing5 from '@/assets/parks/yanzi-ling/5.jpg';
+import yanziLing6 from '@/assets/parks/yanzi-ling/6.jpg';
+import yanziLing7 from '@/assets/parks/yanzi-ling/7.jpg';
+import yanziLing8 from '@/assets/parks/yanzi-ling/8.jpg';
+
+import yueliangWan1 from '@/assets/parks/yueliang-wan/1.jpg';
+import yueliangWan2 from '@/assets/parks/yueliang-wan/2.jpg';
+import yueliangWan3 from '@/assets/parks/yueliang-wan/3.jpg';
+import yueliangWan4 from '@/assets/parks/yueliang-wan/4.jpg';
+import yueliangWan5 from '@/assets/parks/yueliang-wan/5.jpg';
+import yueliangWan6 from '@/assets/parks/yueliang-wan/6.jpg';
+import yueliangWan7 from '@/assets/parks/yueliang-wan/7.jpg';
+import yueliangWan8 from '@/assets/parks/yueliang-wan/8.jpg';
+
 export const PARK_PHOTOS: Record<string, string[]> = {
   'shenzhen-wan': [shenzhenWan1, shenzhenWan2, shenzhenWan3, shenzhenWan4, shenzhenWan5, shenzhenWan6, shenzhenWan7, shenzhenWan8, shenzhenWan9, shenzhenWan10, shenzhenWan11, shenzhenWan12],
   'wutong-shan': [wutongShan1, wutongShan2, wutongShan3, wutongShan4, wutongShan5, wutongShan6, wutongShan7, wutongShan8, wutongShan9, wutongShan10, wutongShan11, wutongShan12],
@@ -299,4 +335,8 @@ export const PARK_PHOTOS: Record<string, string[]> = {
   'lizhi': [lizhi1, lizhi2, lizhi3, lizhi4, lizhi5, lizhi6, lizhi7, lizhi8, lizhi9, lizhi10, lizhi11, lizhi12],
   'baoan': [baoan1, baoan2, baoan3, baoan4, baoan5, baoan6, baoan7, baoan8, baoan9, baoan10, baoan11, baoan12],
   'julong-shan': [julongShan1, julongShan2, julongShan3, julongShan4, julongShan5, julongShan6, julongShan7, julongShan8],
+  'pingshan-he': [pingshanHe1, pingshanHe2, pingshanHe3, pingshanHe4, pingshanHe5, pingshanHe6, pingshanHe7, pingshanHe8],
+  'pingshan-zhongxin': [pingshanZhongxin1, pingshanZhongxin2, pingshanZhongxin3, pingshanZhongxin4, pingshanZhongxin5, pingshanZhongxin6, pingshanZhongxin7, pingshanZhongxin8],
+  'yanzi-ling': [yanziLing1, yanziLing2, yanziLing3, yanziLing4, yanziLing5, yanziLing6, yanziLing7, yanziLing8],
+  'yueliang-wan': [yueliangWan1, yueliangWan2, yueliangWan3, yueliangWan4, yueliangWan5, yueliangWan6, yueliangWan7, yueliangWan8],
 };

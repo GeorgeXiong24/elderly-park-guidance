@@ -174,3 +174,5 @@ Desktop.ini
 # 云函数本地依赖（如已安装 node_modules）与云环境敏感配置
 cloudfunctions/**/node_modules/
 cloudfunctions/**/.env
+
+commit.txt

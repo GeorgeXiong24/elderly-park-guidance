@@ -4,7 +4,9 @@ import Taro, { useRouter } from '@tarojs/taro';
 import { PARKS } from '@/data/parks';
 import { PARK_PHOTOS } from '@/data/parkPhotos';
 import { getParkRadarScore, getParkWeightedScore } from '@/data/parkRadar';
+import { getParkLocation } from '@/data/parkLocations';
 import RadarChart from '@/components/RadarChart';
+import LocationMap from '@/components/LocationMap';
 import styles from './index.module.scss';
 
 const getRatingLabel = (rating: number): { text: string; className: string } => {
@@ -22,6 +24,7 @@ const ParkDetailPage: React.FC = () => {
   const photos = PARK_PHOTOS[id] || [];
   const radarScore = park ? getParkRadarScore(park.id) : undefined;
   const weightedScore = park ? getParkWeightedScore(park.id) : undefined;
+  const location = park ? getParkLocation(park.id) : undefined;
   const rating = park ? getRatingLabel(park.rating) : null;
   const [current, setCurrent] = useState(0);
   const [previewIndex, setPreviewIndex] = useState(0);
@@ -114,6 +117,8 @@ const ParkDetailPage: React.FC = () => {
               <RadarChart data={radarScore} weightedScore={weightedScore} />
             </View>
           )}
+
+          {location && <LocationMap location={location} />}
         </>
       )}
 

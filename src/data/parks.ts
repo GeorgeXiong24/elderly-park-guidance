@@ -21,6 +21,10 @@ import xiwanHongshulinCover from '@/assets/parks/xiwan-hongshulin/cover.jpg';
 import lizhiCover from '@/assets/parks/lizhi/cover.jpg';
 import baoanCover from '@/assets/parks/baoan/cover.jpg';
 import julongShanCover from '@/assets/parks/julong-shan/cover.png';
+import pingshanHeCover from '@/assets/parks/pingshan-he/cover.png';
+import pingshanZhongxinCover from '@/assets/parks/pingshan-zhongxin/cover.png';
+import yanziLingCover from '@/assets/parks/yanzi-ling/cover.png';
+import yueliangWanCover from '@/assets/parks/yueliang-wan/cover.png';
 
 export const PARKS: Park[] = [
   {
@@ -198,6 +202,38 @@ export const PARKS: Park[] = [
     features: ['无障碍通行', '步道平缓', '林荫遮阴好', '适合晨练', '清幽人少'],
     region: '坪山区',
     imageUrl: julongShanCover,
+  },
+  {
+    id: 'pingshan-he',
+    name: '坪山河湿地公园',
+    rating: 3.6,
+    features: ['步道平缓', '休息座椅多', '清幽人少', '水景栈道', '观景平台多', '免费开放'],
+    region: '坪山区',
+    imageUrl: pingshanHeCover,
+  },
+  {
+    id: 'pingshan-zhongxin',
+    name: '坪山中心公园',
+    rating: 4.5,
+    features: ['无障碍通行', '休息座椅多', '健身器材多', '地铁可达', '水景栈道', '无障碍卫生间', '凉亭廊架多', '适合晨练', '免费开放'],
+    region: '坪山区',
+    imageUrl: pingshanZhongxinCover,
+  },
+  {
+    id: 'yanzi-ling',
+    name: '燕子岭公园',
+    rating: 3.1,
+    features: ['步道平缓', '林荫遮阴好', '凉亭廊架多', '清幽人少', '水景栈道', '观景平台多', '免费开放', '地铁可达', '适合晨练'],
+    region: '坪山区',
+    imageUrl: yanziLingCover,
+  },
+  {
+    id: 'yueliang-wan',
+    name: '月亮湾公园',
+    rating: 4.3,
+    features: ['地铁可达', '林荫遮阴好', '水景栈道', '步道平缓', '健身器材多', '凉亭廊架多', '免费开放', '休息座椅多', '适合晨练', '可租借轮椅', '园内接驳车'],
+    region: '南山区',
+    imageUrl: yueliangWanCover,
   },
 ];
 
