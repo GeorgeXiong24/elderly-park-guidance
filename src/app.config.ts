@@ -1,9 +1,15 @@
 export default defineAppConfig({
   pages: [
     'pages/parks/index',
-    'pages/about/index',
-    'pages/park-detail/index'
+    'pages/about/index'
   ],
+  subPackages: [
+    {
+      root: 'pages/park-detail',
+      pages: ['index']
+    }
+  ],
+  lazyCodeLoading: 'requiredComponents',
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#f5f7f4',

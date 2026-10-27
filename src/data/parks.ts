@@ -1,30 +1,30 @@
 import type { Park } from '@/types/park';
 import shenzhenWanCover from '@/assets/parks/shenzhen-wan/cover.jpg';
 import wutongShanCover from '@/assets/parks/wutong-shan/cover.jpg';
-import lianhuaShanCover from '@/assets/parks/lianhua-shan/cover.jpeg';
+import lianhuaShanCover from '@/assets/parks/lianhua-shan/cover.jpg';
 import xianhuCover from '@/assets/parks/xianhu/cover.jpg';
-import bijiaShanCover from '@/assets/parks/bijia-shan/cover.jpeg';
+import bijiaShanCover from '@/assets/parks/bijia-shan/cover.jpg';
 import yuanboyuanCover from '@/assets/parks/yuanboyuan/cover.jpg';
 import shenzhenRencaiCover from '@/assets/parks/shenzhen-rencai/cover.jpg';
-import dashaHeCover from '@/assets/parks/dasha-he/cover.png';
+import dashaHeCover from '@/assets/parks/dasha-he/cover.jpg';
 import dameishaCover from '@/assets/parks/dameisha/cover.jpg';
 import baoanBinhaiCover from '@/assets/parks/baoan-binhai/cover.jpg';
 import donghuCover from '@/assets/parks/donghu/cover.jpg';
 import honghuCover from '@/assets/parks/honghu/cover.jpg';
-import yangtaiShanCover from '@/assets/parks/yangtai-shan/cover.png';
+import yangtaiShanCover from '@/assets/parks/yangtai-shan/cover.jpg';
 import fenghuangShanCover from '@/assets/parks/fenghuang-shan/cover.jpg';
 import shenzhenZhongxinCover from '@/assets/parks/shenzhen-zhongxin/cover.jpg';
 import maluanShanCover from '@/assets/parks/maluan-shan/cover.jpg';
 import tanglangShanCover from '@/assets/parks/tanglang-shan/cover.jpg';
-import yanhanShanCover from '@/assets/parks/yanhan-shan/cover.png';
+import yanhanShanCover from '@/assets/parks/yanhan-shan/cover.jpg';
 import xiwanHongshulinCover from '@/assets/parks/xiwan-hongshulin/cover.jpg';
 import lizhiCover from '@/assets/parks/lizhi/cover.jpg';
 import baoanCover from '@/assets/parks/baoan/cover.jpg';
-import julongShanCover from '@/assets/parks/julong-shan/cover.png';
-import pingshanHeCover from '@/assets/parks/pingshan-he/cover.png';
-import pingshanZhongxinCover from '@/assets/parks/pingshan-zhongxin/cover.png';
-import yanziLingCover from '@/assets/parks/yanzi-ling/cover.png';
-import yueliangWanCover from '@/assets/parks/yueliang-wan/cover.png';
+import julongShanCover from '@/assets/parks/julong-shan/cover.jpg';
+import pingshanHeCover from '@/assets/parks/pingshan-he/cover.jpg';
+import pingshanZhongxinCover from '@/assets/parks/pingshan-zhongxin/cover.jpg';
+import yanziLingCover from '@/assets/parks/yanzi-ling/cover.jpg';
+import yueliangWanCover from '@/assets/parks/yueliang-wan/cover.jpg';
 
 export const PARKS: Park[] = [
   {

@@ -62,3 +62,7 @@ The radar chart evaluates a park's age-friendliness across the following 5 dimen
 As Shenzhen's population ages, the elderly's demand for outdoor activity venues continues to grow. However, park information is often scattered across multiple channels and rarely organized around the actual needs of the elderly. When choosing activity venues, seniors often face inconvenience due to the lack of age-friendly information.
 
 This project helps seniors conveniently and clearly find parks that suit them by gathering age-friendly information on major parks in Shenzhen.
+
+## Package Size
+
+The maximum size of a single WeChat mini program package is 2 MB. If a package exceeds 1.5 MB during development, consider moving some code into subpackages to reduce the size of the main package.
