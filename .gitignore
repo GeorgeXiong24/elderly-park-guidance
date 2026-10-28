@@ -41,6 +41,9 @@ build/Release
 node_modules/
 jspm_packages/
 
+# 图片压缩临时中转目录（压缩结果只保留在 src/pages/dN/img）
+build/
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 

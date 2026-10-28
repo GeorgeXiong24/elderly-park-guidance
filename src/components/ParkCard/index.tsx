@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import type { Park } from '@/types/park';
+import { PARK_PAGE } from '@/data/parkGroup';
 import styles from './index.module.scss';
 
 export interface ParkCardProps {
@@ -10,10 +11,13 @@ export interface ParkCardProps {
 
 const ParkCard: React.FC<ParkCardProps> = ({ park }) => {
   const handleClick = () => {
-    console.log('[ParkCard] navigate to detail:', park.id);
-    Taro.navigateTo({
-      url: `/pages/park-detail/index?id=${park.id}`,
-    });
+    // 每个公园的详情图在哪个分包里，由 scripts/build-local-photos.js 生成的 PARK_PAGE 决定
+    const page = PARK_PAGE[park.id];
+    if (!page) {
+      Taro.showToast({ title: '该公园暂未开放详情', icon: 'none' });
+      return;
+    }
+    Taro.navigateTo({ url: `${page}?id=${park.id}` });
   };
 
   const handleImageError = () => {

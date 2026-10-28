@@ -12,12 +12,21 @@ function walk(dir, out = []) {
 }
 const all = walk(dist);
 const rel = (p) => path.relative(dist, p);
-const main = all.filter((f) => !rel(f.p).startsWith(path.join('pages', 'park-detail')));
-const sub = all.filter((f) => rel(f.p).startsWith(path.join('pages', 'park-detail')));
+// 详情图分包目录形如 pages/d1 … pages/d8
+const isSub = (p) => /^pages[\\/]d\d+[\\/]/.test(rel(p));
+const main = all.filter((f) => !isSub(f.p));
+const subs = {};
+all.filter((f) => isSub(f.p)).forEach((f) => {
+  const seg = rel(f.p).split(path.sep);
+  const key = seg[0] + '/' + seg[1];
+  (subs[key] = subs[key] || []).push(f);
+});
 const sum = (a) => a.reduce((s, f) => s + f.size, 0);
 const kb = (b) => (b / 1024).toFixed(1) + 'KB';
 console.log('MAIN:', kb(sum(main)), 'files=' + main.length);
-console.log('SUB :', kb(sum(sub)), 'files=' + sub.length);
+Object.keys(subs).sort().forEach((k) => {
+  console.log('SUB ' + k + ':', kb(sum(subs[k])), 'files=' + subs[k].length);
+});
 console.log('--- top 12 main ---');
 main.sort((a, b) => b.size - a.size).slice(0, 12).forEach((f) => console.log(kb(f.size), rel(f.p)));
 console.log('--- packaged images/audio >200KB ---');

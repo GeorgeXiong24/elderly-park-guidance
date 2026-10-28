@@ -63,6 +63,22 @@ As Shenzhen's population ages, the elderly's demand for outdoor activity venues 
 
 This project helps seniors conveniently and clearly find parks that suit them by gathering age-friendly information on major parks in Shenzhen.
 
-## Package Size
+## Images and Subpackages
 
-The maximum size of a single WeChat mini program package is 2 MB. If a package exceeds 1.5 MB during development, consider moving some code into subpackages to reduce the size of the main package.
+The maximum size of a single WeChat mini program package is 2 MB. All 286 detail photos (26 parks) ship inside the code package: a script splits them into 8 subpackages (`pages/d1` … `pages/d8`, ~1.4–1.7 MB each) by size, while the main package only holds the 26 covers (~740 KB).
+
+Every photo is stored exactly once in the repository:
+
+| Location | Contents | Committed |
+| --- | --- | --- |
+| `src/pages/dN/img/<park-id>/` | 750px, ≤55 KB detail photos — the only images bundled | yes |
+| `src/assets/parks/<park-id>/cover.jpg` | List cover used by the main package | yes |
+| `../elderly-park-guidance-assets/originals/parks/` | Full-resolution originals (asset library outside the repo, override with `PARK_ORIGINALS`) | no |
+| `dist/` | Build output, always regenerable | no (ignored) |
+
+To change or add park photos, drop the originals into the asset library and run:
+
+```powershell
+node scripts/build-local-photos.js   # re-compress, re-split, and update subPackages in app.config.ts
+npm run build:weapp
+```

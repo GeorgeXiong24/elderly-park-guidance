@@ -4,10 +4,40 @@ export default defineAppConfig({
     'pages/about/index'
   ],
   subPackages: [
+    // <photo-subpackages>
     {
-      root: 'pages/park-detail',
+      root: 'pages/d1',
+      pages: ['index']
+    },
+    {
+      root: 'pages/d2',
+      pages: ['index']
+    },
+    {
+      root: 'pages/d3',
+      pages: ['index']
+    },
+    {
+      root: 'pages/d4',
+      pages: ['index']
+    },
+    {
+      root: 'pages/d5',
+      pages: ['index']
+    },
+    {
+      root: 'pages/d6',
+      pages: ['index']
+    },
+    {
+      root: 'pages/d7',
+      pages: ['index']
+    },
+    {
+      root: 'pages/d8',
       pages: ['index']
     }
+    // </photo-subpackages>
   ],
   lazyCodeLoading: 'requiredComponents',
   window: {
