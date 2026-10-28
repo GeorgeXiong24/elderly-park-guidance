@@ -1,8 +1,14 @@
-[中文](./README.md)
-
 # Shenzhen Elderly Park Guide
 
+> 语言 / Language：[中文版](README.md)
+
 A WeChat mini program designed for elderly residents in Shenzhen, providing park guidance, age-friendly ratings, and travel assistance to help seniors quickly find green spaces suitable for leisure, exercise, and socializing.
+
+## Try the Mini Program
+
+Scan the QR code below with WeChat to open the Shenzhen Elderly Park Guide mini program.
+
+![QR code for the Shenzhen Elderly Park Guide mini program](attachment/qr-code.jpg)
 
 ## Overview
 
