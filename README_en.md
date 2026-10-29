@@ -12,7 +12,7 @@ Scan the QR code below with WeChat to open the Shenzhen Elderly Park Guide mini 
 
 ## Overview
 
-The "Shenzhen Elderly Park Guide" brings together basic information on **22 major parks** in Shenzhen, offering a unified guidance entry point built around the actual needs of the elderly (accessible pathways, resting benches, shaded facilities, fitness equipment, quiet walking paths, and more).
+The "Shenzhen Elderly Park Guide" brings together basic information on **26 major parks** in Shenzhen, offering a unified guidance entry point built around the actual needs of the elderly (accessible pathways, resting benches, shaded facilities, fitness equipment, quiet walking paths, and more).
 
 The mini program is centered on age-friendly design: larger fonts, high-contrast colors, and a simple interaction flow, so elderly users can get started without any learning curve. It currently covers Futian, Nanshan, Luohu, Bao'an, Yantian, Longgang, Longhua, and Pingshan districts.
 
@@ -68,23 +68,3 @@ The radar chart evaluates a park's age-friendliness across the following 5 dimen
 As Shenzhen's population ages, the elderly's demand for outdoor activity venues continues to grow. However, park information is often scattered across multiple channels and rarely organized around the actual needs of the elderly. When choosing activity venues, seniors often face inconvenience due to the lack of age-friendly information.
 
 This project helps seniors conveniently and clearly find parks that suit them by gathering age-friendly information on major parks in Shenzhen.
-
-## Images and Subpackages
-
-The maximum size of a single WeChat mini program package is 2 MB. All 286 detail photos (26 parks) ship inside the code package: a script splits them into 8 subpackages (`pages/d1` … `pages/d8`, ~1.4–1.7 MB each) by size, while the main package only holds the 26 covers (~740 KB).
-
-Every photo is stored exactly once in the repository:
-
-| Location | Contents | Committed |
-| --- | --- | --- |
-| `src/pages/dN/img/<park-id>/` | 750px, ≤55 KB detail photos — the only images bundled | yes |
-| `src/assets/parks/<park-id>/cover.jpg` | List cover used by the main package | yes |
-| `../elderly-park-guidance-assets/originals/parks/` | Full-resolution originals (asset library outside the repo, override with `PARK_ORIGINALS`) | no |
-| `dist/` | Build output, always regenerable | no (ignored) |
-
-To change or add park photos, drop the originals into the asset library and run:
-
-```powershell
-node scripts/build-local-photos.js   # re-compress, re-split, and update subPackages in app.config.ts
-npm run build:weapp
-```

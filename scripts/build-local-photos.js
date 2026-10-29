@@ -2,7 +2,7 @@
 // 把详情图全部打进代码包（不使用任何云存储）。
 //
 // 做三件事：
-//   1. 从原图目录重新压出 750px、≤55KB 的详情图（原图默认在项目外）
+//   1. 从原图目录重新压出 750px、≤55KB 的详情图（原图默认在项目内的本地素材库）
 //   2. 按体积把 26 个公园分进若干个分包（每个分包 ≤1.7MB，微信单包上限 2MB）
 //   3. 生成分包页面 src/pages/dN/{index.tsx,photos.ts,index.config.ts}、
 //      src/data/parkGroup.ts，并改写 src/app.config.ts 里的 subPackages
@@ -21,7 +21,7 @@ const sharp = require('sharp');
 const ROOT = path.resolve(__dirname, '..');
 const ORIGINALS = process.env.PARK_ORIGINALS
   ? path.resolve(process.env.PARK_ORIGINALS)
-  : path.resolve(ROOT, '..', 'elderly-park-guidance-assets', 'originals', 'parks');
+  : path.resolve(ROOT, 'local-assets', 'originals', 'parks');
 // 压缩结果只作为中转，拷进 src/pages/dN/img 后立即删除，
 // 避免在仓库里再多留一份和代码包完全相同的图片。
 const STAGE = fs.mkdtempSync(path.join(os.tmpdir(), 'park-photos-'));
