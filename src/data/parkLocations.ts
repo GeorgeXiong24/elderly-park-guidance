@@ -297,6 +297,17 @@ export const PARK_LOCATIONS: Record<string, ParkLocation> = {
     medicalLongitude: 113.888844,
     medicalPhone: '0755-26162878',
   },
+  'wentian-xiang': {
+    parkName: '文天祥纪念公园',
+    parkAddress: '',
+    parkLatitude: 22.474473,
+    parkLongitude: 113.899566,
+    medicalName: '深圳市南山区医疗集团总部龙瑞佳园社区健康服务中心',
+    medicalAddress: '',
+    medicalLatitude: 22.47896,
+    medicalLongitude: 113.903238,
+    medicalPhone: '0755-26918967',
+  },
 };
 
 export function getParkLocation(parkId: string): ParkLocation | undefined {
