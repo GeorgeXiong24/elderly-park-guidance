@@ -25,6 +25,7 @@ import pingshanHeCover from '@/assets/parks/pingshan-he/cover.jpg';
 import pingshanZhongxinCover from '@/assets/parks/pingshan-zhongxin/cover.jpg';
 import yanziLingCover from '@/assets/parks/yanzi-ling/cover.jpg';
 import yueliangWanCover from '@/assets/parks/yueliang-wan/cover.jpg';
+import wentianXiangCover from '@/assets/parks/wentian-xiang/cover.jpg';
 
 export const PARKS: Park[] = [
   {
@@ -234,6 +235,14 @@ export const PARKS: Park[] = [
     features: ['地铁可达', '林荫遮阴好', '水景栈道', '步道平缓', '健身器材多', '凉亭廊架多', '免费开放', '休息座椅多', '适合晨练', '可租借轮椅', '园内接驳车'],
     region: '南山区',
     imageUrl: yueliangWanCover,
+  },
+  {
+    id: 'wentian-xiang',
+    name: '文天祥纪念公园',
+    rating: 2.4,
+    features: ['地铁可达', '观景平台多', '免费开放', '清幽人少'],
+    region: '南山区',
+    imageUrl: wentianXiangCover,
   },
 ];
 

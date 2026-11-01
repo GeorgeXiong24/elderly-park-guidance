@@ -3,7 +3,7 @@
 //
 // 做三件事：
 //   1. 从原图目录重新压出 750px、≤55KB 的详情图（原图默认在项目内的本地素材库）
-//   2. 按体积把 26 个公园分进若干个分包（每个分包 ≤1.7MB，微信单包上限 2MB）
+//   2. 按体积把公园分进若干个分包（每个分包 ≤1.7MB，微信单包上限 2MB）
 //   3. 生成分包页面 src/pages/dN/{index.tsx,photos.ts,index.config.ts}、
 //      src/data/parkGroup.ts，并改写 src/app.config.ts 里的 subPackages
 //
@@ -220,7 +220,7 @@ function writeAppConfig(count) {
           g.parks.map((p) => p.id).join(', ')
       );
     });
-    console.log('\n主包图片：26 张封面 739KB；总分包图片 ' + fmtMB(total) + '；共计 ' + count + ' 个分包');
+    console.log('\n总分包图片 ' + fmtMB(total) + '；共计 ' + count + ' 个分包');
     if (skipped.length) console.log('\n跳过的坏文件：\n' + skipped.join('\n'));
     console.log('\n下一步：npm run build:weapp');
   } finally {

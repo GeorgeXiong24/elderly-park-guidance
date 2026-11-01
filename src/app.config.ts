@@ -36,6 +36,10 @@ export default defineAppConfig({
     {
       root: 'pages/d8',
       pages: ['index']
+    },
+    {
+      root: 'pages/d9',
+      pages: ['index']
     }
     // </photo-subpackages>
   ],
