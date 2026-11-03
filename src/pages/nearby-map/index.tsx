@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CoverImage, CoverView, Map, Text, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { PARKS } from '@/data/parks';
@@ -54,6 +54,17 @@ const NearbyMapPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasLocationError, setHasLocationError] = useState(false);
   const [selectedPark, setSelectedPark] = useState<Park | null>(null);
+  const [isPopupClosing, setIsPopupClosing] = useState(false);
+  const popupCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(
+    () => () => {
+      if (popupCloseTimer.current) {
+        clearTimeout(popupCloseTimer.current);
+      }
+    },
+    []
+  );
 
   const loadLocation = useCallback(async () => {
     setIsLoading(true);
@@ -100,7 +111,25 @@ const NearbyMapPage: React.FC = () => {
       return;
     }
 
+    if (popupCloseTimer.current) {
+      clearTimeout(popupCloseTimer.current);
+      popupCloseTimer.current = null;
+    }
+    setIsPopupClosing(false);
     setSelectedPark(park);
+  };
+
+  const closePopup = () => {
+    if (!selectedPark || isPopupClosing) {
+      return;
+    }
+
+    setIsPopupClosing(true);
+    popupCloseTimer.current = setTimeout(() => {
+      setSelectedPark(null);
+      setIsPopupClosing(false);
+      popupCloseTimer.current = null;
+    }, 220);
   };
 
   const handleShowDetails = async () => {
@@ -193,20 +222,22 @@ const NearbyMapPage: React.FC = () => {
         }
       />
       <View className={styles.rangeBadge}>
-        <Text className={styles.rangeTitle}>深圳全部公园</Text>
-        <Text className={styles.rangeText}>地图宽约 15 km · 圈内 10 km</Text>
+        <Text className={styles.rangeTitle}>地图</Text>
         <Text className={styles.rangeCount}>{parkMarkers.length} 个公园位置</Text>
       </View>
       <View className={styles.relocateButton} onClick={loadLocation}>
         <Text className={styles.relocateButtonText}>重新定位</Text>
       </View>
       {selectedPark && (
-        <CoverView className={styles.popupBackdrop} onClick={() => setSelectedPark(null)}>
+        <CoverView
+          className={`${styles.popupBackdrop} ${isPopupClosing ? styles.popupClosing : ''}`}
+          onClick={closePopup}
+        >
           <CoverView
             className={styles.popupSheet}
             onClick={(event) => event.stopPropagation()}
           >
-            <CoverView className={styles.popupClose} onClick={() => setSelectedPark(null)}>
+            <CoverView className={styles.popupClose} onClick={closePopup}>
               ×
             </CoverView>
             <CoverView className={styles.popupContent}>
