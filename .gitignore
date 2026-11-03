@@ -157,8 +157,8 @@ project.private.config.json
 # 原始调研素材（可能含 EXIF 定位/拍摄信息，及医疗点电话等非开源数据，非应用源码）
 evidence_list/
 
-# 高分辨率原始照片（本地构建素材，不直接打入小程序）
-local-assets/originals/
+# 本地素材（原始照片及构建用素材，不直接打入小程序）
+local-assets/
 
 # commit内容
 commit.txt
