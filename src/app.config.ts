@@ -1,6 +1,7 @@
 export default defineAppConfig({
   pages: [
     'pages/parks/index',
+    'pages/nearby-map/index',
     'pages/about/index'
   ],
   subPackages: [
@@ -44,6 +45,12 @@ export default defineAppConfig({
     // </photo-subpackages>
   ],
   lazyCodeLoading: 'requiredComponents',
+  permission: {
+    'scope.userLocation': {
+      desc: '用于在附近公园地图中显示您的当前位置'
+    }
+  },
+  requiredPrivateInfos: ['getLocation'],
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#f5f7f4',
@@ -61,6 +68,12 @@ export default defineAppConfig({
         text: '全部公园',
         iconPath: 'assets/tabbar/parks.png',
         selectedIconPath: 'assets/tabbar/parks-selected.png'
+      },
+      {
+        pagePath: 'pages/nearby-map/index',
+        text: '附近公园',
+        iconPath: 'assets/tabbar/nearby-map.png',
+        selectedIconPath: 'assets/tabbar/nearby-map-selected.png'
       },
       {
         pagePath: 'pages/about/index',
