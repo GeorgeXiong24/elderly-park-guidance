@@ -26,6 +26,7 @@ import pingshanZhongxinCover from '@/assets/parks/pingshan-zhongxin/cover.jpg';
 import yanziLingCover from '@/assets/parks/yanzi-ling/cover.jpg';
 import yueliangWanCover from '@/assets/parks/yueliang-wan/cover.jpg';
 import wentianXiangCover from '@/assets/parks/wentian-xiang/cover.jpg';
+import cuiZhuCover from '@/assets/parks/cuizhu/cover.jpg';
 
 export const PARKS: Park[] = [
   {
@@ -243,6 +244,14 @@ export const PARKS: Park[] = [
     features: ['地铁可达', '观景平台多', '免费开放', '清幽人少'],
     region: '南山区',
     imageUrl: wentianXiangCover,
+  },
+  {
+    id: 'cuizhu',
+    name: '翠竹公园',
+    rating: 3.9,
+    features: ['观景平台多', '凉亭廊架多', '休息座椅多', '林荫遮阴好', '健身器材多', '适合晨练', '地铁可达', '免费开放'],
+    region: '罗湖区',
+    imageUrl: cuiZhuCover,
   },
 ];
 

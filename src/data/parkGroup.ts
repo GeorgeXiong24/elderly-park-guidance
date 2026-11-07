@@ -4,6 +4,7 @@ export const PARK_PAGE: Record<string, string> = {
   'baoan': '/pages/d6/index',
   'baoan-binhai': '/pages/d6/index',
   'bijia-shan': '/pages/d1/index',
+  'cuizhu': '/pages/d9/index',
   'dameisha': '/pages/d1/index',
   'dasha-he': '/pages/d2/index',
   'donghu': '/pages/d3/index',

@@ -308,6 +308,17 @@ export const PARK_LOCATIONS: Record<string, ParkLocation> = {
     medicalLongitude: 113.903238,
     medicalPhone: '0755-26918967',
   },
+  'cuizhu': {
+    parkName: '翠竹公园',
+    parkAddress: '',
+    parkLatitude: 22.563835,
+    parkLongitude: 114.134339,
+    medicalName: '深圳市康宁医院（罗湖院区）',
+    medicalAddress: '',
+    medicalLatitude: 22.56384,
+    medicalLongitude: 114.131093,
+    medicalPhone: '0755-25504297',
+  },
 };
 
 export function getParkLocation(parkId: string): ParkLocation | undefined {

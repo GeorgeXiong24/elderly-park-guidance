@@ -44,6 +44,7 @@ export const PARK_RADAR_SCORES: Record<string, number[]> = {
   'yanzi-ling': [26, 86, 76, 38, 92],
   'yueliang-wan': [90, 84, 98, 70, 85],
   'wentian-xiang': [40, 48, 82, 16, 62],
+  'cuizhu': [70, 74, 76, 80, 96],
 };
 
 // 各公园加权总分（0-100 分），键为公园 id（与 parks.ts 中的 id 对应）
@@ -76,6 +77,7 @@ export const PARK_WEIGHTED_SCORES: Record<string, number> = {
   'yanzi-ling': 61,
   'yueliang-wan': 85,
   'wentian-xiang': 47,
+  'cuizhu': 78,
 };
 
 export function getParkRadarScore(parkId: string): number[] | undefined {
